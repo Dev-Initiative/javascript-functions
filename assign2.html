@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Reverser</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e6f2ff;
+            /* Light blue background */
+            background-image: linear-gradient(to bottom right, #e6f2ff, #cce6ff);
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a6fa5;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 3px;
+            height: 150px;
+            border: 2px solid #d6e4ff;
+            border-radius: 8px;
+            font-size: 16px;
+            min-height: 100px;
+            resize: vertical;
+            transition: border 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3a7bc8;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-container {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8faff;
+            border-radius: 8px;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .result-title {
+            color: #4a6fa5;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        #result {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            background-color: #e6f2ff;
+            color: #4a90e2;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: #d6e6ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>String Reverser</h1>
+        <div class="input-group">
+            <label for="inputText">Enter your text:</label>
+            <textarea id="inputText" placeholder="Type or paste your text here..."></textarea>
+        </div>
+        <button id="reverseBtn">Reverse String</button>
+        <div class="result-container">
+            <h3 class="result-title">Reversed Text:</h3>
+            <p id="result">Your reversed text will appear here...</p>
+            <button class="copy-btn" id="copyBtn">Copy Result</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const reverseBtn = document.getElementById('reverseBtn');
+            const inputText = document.getElementById('inputText');
+            const result = document.getElementById('result');
+            const copyBtn = document.getElementById('copyBtn');
+
+            // Reverse string function
+            function reverseString(str) {
+                return str.split('').reverse().join('');
+            }
+
+            // Reverse button click handler
+            reverseBtn.addEventListener('click', function () {
+                if (!inputText.value.trim()) {
+                    result.textContent = "Please enter some text first!";
+                    return;
+                }
+
+                const reversedText = reverseString(inputText.value);
+                result.textContent = reversedText;
+            });
+
+            // Copy button click handler
+            copyBtn.addEventListener('click', function () {
+                if (result.textContent && result.textContent !== "Your reversed text will appear here..." &&
+                    result.textContent !== "Please enter some text first!") {
+                    navigator.clipboard.writeText(result.textContent)
+                        .then(() => {
+                            copyBtn.textContent = "Copied!";
+                            setTimeout(() => {
+                                copyBtn.textContent = "Copy Result";
+                            }, 2000);
+                        });
+                }
+            });
+
+            // Allow pressing Enter in textarea to reverse
+            inputText.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    reverseBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
