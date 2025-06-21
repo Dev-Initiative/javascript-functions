@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Function Playground</title>
+    <style>
+      :root {
+        --primary: #6837b7;
+        --secondary: #e6b2fa;
+        --accent: #4776e6;
+        --light: #f9f9f9;
+        --dark: #333;
+        --success: #11d518;
+        --warning: #e6900f;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #006b07 0%, #8800ff 100%);
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 30px auto;
+        background-color: rgb(255, 255, 255);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(18, 1, 60, 0.1);
+        background: linear-gradient(135deg, #fd8c03be 0%, #8800ff 100%);
+        -webkit-background-filter: blur(10px);
+        /* backdrop-filter: blur(10px); */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      h1 {
+        color: var(--primary);
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .demo-section {
+        margin-bottom: 40px;
+        padding: 30px;
+        background: linear-gradient(145deg, #fac519 0%, #ffffff 100%);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .demo-section:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: var(--secondary);
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+      }
+
+      h2::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 30px;
+        background: linear-gradient(var(--primary), var(--secondary));
+        margin-right: 15px;
+        border-radius: 5px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: all 0.3s;
+      }
+
+      input[type="text"]:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(110, 72, 170, 0.2);
+        outline: none;
+      }
+
+      button {
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .result {
+        margin-top: 20px;
+        padding: 20px;
+        background: linear-gradient(145deg, #e9f7ef 0%, #d4edda 100%);
+        border-left: 5px solid var(--success);
+        border-radius: 10px;
+        font-size: 18px;
+        color: var(--dark);
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.4s;
+      }
+
+      .result.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .result strong {
+        color: var(--success);
+      }
+
+      pre {
+        background: linear-gradient(145deg, #2b2b2b 0%, #1a1a1a 100%);
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        color: #f8f8f8;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: white;
+      }
+
+      .copy-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.2s;
+      }
+
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+        }
+
+        .demo-section {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 15px;
+        }
+
+        .demo-section {
+          padding: 15px;
+        }
+
+        button {
+          width: 100%;
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>JavaScript Function Playground</h1>
+
+      <div class="demo-section">
+        <h2>Capitalize Statement</h2>
+        <div class="input-group">
+          <label for="statementInput">Enter a statement:</label>
+          <input
+            type="text"
+            id="statementInput"
+            value="this was no big deal "
+          />
+        </div>
+        <button onclick="runCapitalize()">Capitalize Words</button>
+        <div class="result" id="capitalizeResult">
+          <strong>Result:</strong> <span id="capitalizeOutput"></span>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>Reverse String</h2>
+        <div class="input-group">
+          <label for="stringInput">Enter a string:</label>
+          <input type="text" id="stringInput" value="Foster Asare" />
+        </div>
+        <button onclick="runReverse()">Reverse It</button>
+        <div class="result" id="reverseResult">
+          <strong>Result:</strong> <span id="reverseOutput"></span>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="code-header">
+          <h2>JavaScript Code</h2>
+          <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+        </div>
+        <pre id="codeBlock">
+// Function to capitalize the first letter of each word in a statement
+function capitalizeStatement(statement) {
+    return statement
+        .split(" ")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+}
+
+// Function to reverse a string
+function reverseString(str) {
+    return str.split("").reverse().join("");
+}</pre
+        >
+      </div>
+    </div>
+
+    <script>
+      // Your original functions
+      function capitalizeStatement(statement) {
+        return statement
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+      }
+
+      function reverseString(str) {
+        return str.split("").reverse().join("");
+      }
+
+      // Functions to handle the UI interaction
+      function runCapitalize() {
+        const input = document.getElementById("statementInput").value;
+        const output = capitalizeStatement(input);
+        document.getElementById("capitalizeOutput").textContent = output;
+        showResult("capitalizeResult");
+      }
+
+      function runReverse() {
+        const input = document.getElementById("stringInput").value;
+        const output = reverseString(input);
+        document.getElementById("reverseOutput").textContent = output;
+        showResult("reverseResult");
+      }
+
+      function showResult(elementId) {
+        const element = document.getElementById(elementId);
+        element.classList.add("show");
+
+        // so this code a rep for here go remove the show class after animation completes if you want it to re-animate next time
+        setTimeout(() => {
+          element.classList.remove("show");
+        }, 3000);
+      }
+
+      function copyCode() {
+        const codeBlock = document.getElementById("codeBlock");
+        const range = document.createRange();
+        range.selectNode(codeBlock);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+        window.getSelection().removeAllRanges();
+
+        const copyBtn = document.querySelector(".copy-btn");
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy Code";
+        }, 2000);
+      }
+
+      // Initialize with example values
+      window.onload = function () {
+        runCapitalize();
+        runReverse();
+
+        // Show results initially
+        setTimeout(() => {
+          document.getElementById("capitalizeResult").classList.add("show");
+          document.getElementById("reverseResult").classList.add("show");
+        }, 500);
+      };
+    </script>
+  </body>
+</html>
